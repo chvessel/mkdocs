@@ -1,0 +1,14 @@
+site_name: udvm dokumentation
+theme:
+  name: material
+  
+markdown_extensions:
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+nav:
+  - Home: index.md
+  - Git: git.md
+  - Static code analysis: static-codeanalysis.md
+  - Tests: tests.md
