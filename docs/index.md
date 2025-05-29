@@ -1,5 +1,5 @@
 # udvm documentation
-Her kan du læse om udvalgte funktioner fra "DBI-egenkontrol" projektet samt tests og kodeprincipper og Git.
+Her kan du læse om udvalgte funktioner fra bla.a "DBI-egenkontrol" projektet samt tests, kodeprincipper og Git.
 
 
 ## Om
