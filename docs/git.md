@@ -53,4 +53,42 @@ Et commit betyder at du gemmer en version af projektet med en besked, der forkla
 
 ^^Giver andre en klar forståelse for ændringerne i "projektet"
 
+----------------------------------
+### Github actions
+
+GitHub Actions bruges til CI/CD til automatisk at bygge og publicere dokumentationen.
+
+
+```
+name: Deploy MkDocs to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install MkDocs and Material theme
+        run: pip install mkdocs mkdocs-material
+
+
+      - name: Deploy to GitHub Pages
+        run: mkdocs gh-deploy --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+- Workflowet kører automatisk, hver gang man pusher til main
 
