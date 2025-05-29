@@ -519,7 +519,7 @@ Her testes der at login-flowet virker – både for korrekt og forkert login.
     describe('Login-flow', () => {
       it('logger ind med korrekt email og password', () => {
         cy.visit('/login');
-        cy.get('input#email').type('test@dbi.dk');
+        cy.get('input#email').type('user@user.dk');
         cy.get('input#password').type('hemmeligtpassword');
         cy.get('button[type="submit"]').click();
         cy.url().should('include', '/skemaer');
