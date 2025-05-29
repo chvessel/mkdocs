@@ -496,3 +496,100 @@ Denne funktion oprettede et nyt formular-objekt, gemte det asynkront med `addFor
     // - showSuccess.value === true
     // - Efter 5 sekunder: router.push('/skemaer')
     ```
+------------------------------------------
+
+## End-2-end tests
+
+### Login
+
+Her testes der at login-flowet virker – både for korrekt og forkert login.
+
+=== "Forklaring"
+
+    Testen simulerer en bruger, der:
+    - Går til login siden
+    - Indtaster email og password
+    - Klikker "Log ind"
+    - Bliver omdirigeret til skema oversigten ved succes
+    - Får en fejlbesked ved forkert login
+
+=== "Testkode"
+
+    ```js
+    describe('Login-flow', () => {
+      it('logger ind med korrekt email og password', () => {
+        cy.visit('/login');
+        cy.get('input#email').type('test@dbi.dk');
+        cy.get('input#password').type('hemmeligtpassword');
+        cy.get('button[type="submit"]').click();
+        cy.url().should('include', '/skemaer');
+        cy.contains('Skemaer').should('be.visible');
+      });
+
+      it('viser fejlbesked ved forkert login', () => {
+        cy.visit('/login');
+        cy.get('input#email').type('forkert@dbi.dk');
+        cy.get('input#password').type('forkertkode');
+        cy.get('button[type="submit"]').click();
+        cy.contains('Email eller password matcher ikke').should('be.visible');
+      });
+    });
+    ```
+
+=== "Test-output"
+
+    ```text
+    > npx cypress run
+
+      Login-flow
+        ✓ logger ind med korrekt email og password (2s)
+        ✓ viser fejlbesked ved forkert login (1s)
+
+    Test Suites: 1 passed, 1 total
+    Tests:       2 passed, 2 total
+    ```
+---
+
+### Opret nyt skema
+
+Her testes der, at en bruger kan oprette et nyt skema.
+
+=== "Forklaring"
+
+    Testen simulerer en bruger, der:
+    - Går til skema oversigten 
+    - Klikker på "Lav nyt skema"
+    - Udfylder navn på skema
+    - Klikker "Næste"
+    - Bliver sendt videre til skabelon siden
+    - Ser det nye skema 
+
+=== "Testkode"
+
+    ```js
+    describe('Opret nyt skema', () => {
+      it('opretter et nyt skema fra skema-oversigten', () => {
+        // Forudsæt: Brugeren er allerede logget ind
+        cy.visit('/skemaer');
+        cy.contains('Lav nyt skema').click();
+        cy.get('input.name-input').type('Testskema E2E');
+        cy.get('button.next-btn').click();
+        cy.url().should('include', '/skemaer/skema/skabelon');
+        cy.contains('ABA månedskontrol').should('be.visible');
+      });
+    });
+    ```
+
+=== "Test-output"
+
+    ```text
+    > npx cypress run
+
+      Opret nyt skema
+        ✓ opretter et nyt skema fra skema-oversigten (3s)
+
+    Test Suites: 1 passed, 1 total
+    Tests:       1 passed, 1 total
+    ```
+
+---
